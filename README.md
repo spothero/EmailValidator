@@ -1,0 +1,4 @@
+EmailValidator
+==============
+
+Android Email Validator
