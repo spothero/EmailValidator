@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Email Validator Demo</string>
+    <string name="description">Enter an email address into the EditText, then proceed to the password field for validation. Addresses such as test@gamil.con will produce an autocorrect suggestion.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
+</resources>

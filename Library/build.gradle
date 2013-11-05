@@ -1,0 +1,104 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+
+apply plugin: 'android-library'
+android {
+    compileSdkVersion 18
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 18
+    }
+}
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+archivesBaseName = 'EmailValidator'
+group = 'com.spothero.emailvalidator'
+version = '1.0.0'
+sourceCompatibility = 1.6
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+signing {
+    if (project.hasProperty('signing.keyId') && project.hasProperty('signing.password') && project.hasProperty('signing.secretKeyRingFile')) {
+        sign configurations.archives
+    } else {
+        println "Signing information missing/incomplete for ${project.name}"
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')) {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+            } else {
+                println "Warning: sonatypeUsername and/or sonatypePassword properties not provided"
+            }
+
+            pom.project {
+               name 'Email Validator'
+               packaging 'aar'
+               description 'An Android library that will provide basic email syntax validation as well as provide suggestions for possible typos (for example, test@gamil.con would be corrected to test@gmail.com).'
+               url 'https://github.com/spothero/EmailValidator'
+
+               scm {
+                   url 'https://github.com/spothero/EmailValidator'
+                   connection 'scm:git@github.com:spothero/EmailValidator.git'
+                   developerConnection 'scm:git@github.com:spothero/EmailValidator.git'
+               }
+
+               issueManagement {
+                   system 'GitHub Issues'
+                   url 'https://github.com/spothero/EmailValidator/issues'
+               }
+
+               licenses {
+                   license {
+                       name 'The Apache Software License, Version 2.0'
+                       url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                       distribution 'repo'
+                   }
+               }
+
+               developers {
+                   developer {
+                       id 'spothero'
+                       name 'SpotHero'
+                   }
+                   developer {
+                       id 'EricKuck'
+                       name 'Eric Kuck'
+                   }
+               }
+
+               organization {
+                   name 'SpotHero'
+                   url 'http://spothero.com'
+               }
+           }
+        }
+    }
+}
+

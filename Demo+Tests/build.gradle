@@ -1,0 +1,29 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+apply plugin: 'android'
+
+dependencies {
+    repositories {
+        mavenCentral()
+    }
+    compile 'com.android.support:appcompat-v7:18.0.0'
+    compile 'com.spothero.emailvalidator:EmailValidator:1.0.0@aar'
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 18
+        testPackageName "com.spothero.emailvalidator.test"
+        testInstrumentationRunner "com.spothero.emailvalidator.test.EmailValidatorTestRunner"
+    }
+}
